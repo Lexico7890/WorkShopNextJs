@@ -1,14 +1,16 @@
 import Head from "next/head";
 import Link from "next/link";
-import AppLayout from "../components/AppLayout";
-import { colors } from "../styles/theme";
-import Button from "../components/button";
-import GmailIcon from "../components/Icons/gmail";
+import AppLayout from "components/AppLayout";
+import { colors } from "styles/theme";
+import Button from "components/button";
+import GmailIcon from "components/Icons/gmail";
 import { loginWithGmail, onAuthstateChanged } from "../firebase/client";
 import { useEffect, useState } from "react";
+import Avatar from "components/Avatar";
 
 export default function Home() {
   const [user, setUser] = useState(undefined);
+  console.log(user);
   useEffect(() => {
     onAuthstateChanged(setUser);
   }, []);
@@ -44,7 +46,12 @@ export default function Home() {
             )}
             {user && user.username && (
               <div>
-                <strong>{user.username}</strong>
+                <Avatar
+                  src={user.avatar}
+                  alt={user.username}
+                  text={user.username}
+                  withText
+                />
               </div>
             )}
           </div>
