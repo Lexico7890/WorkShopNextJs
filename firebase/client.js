@@ -12,13 +12,15 @@ var firebaseConfig = {
 };
 
 !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
+const db = firebase.firestore()
 
 const mapUserFromFirebase = (user) => {
-  const { displayName, photoURL, email } = user;
+  const { displayName, photoURL, email, uid } = user;
   return {
     avatar: photoURL,
     username: displayName,
     email: email,
+    id: uid
   };
 };
 
@@ -36,3 +38,28 @@ export const loginWithGmail = () => {
     .auth()
     .signInWithPopup(gmailProvider)
 };
+
+export const addRequest = ({avatar, content, userId, userName}) => {
+  return db.collection('request').add({
+    avatar,
+    content,
+    userId,
+    userName,
+    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+  })
+}
+
+export const fetchLatesRequest = () => {
+  return db.collection('request')
+  .get()
+  .then(snapshop => {
+    return snapshop.docs.map(doc => {
+      const data = doc.data()
+      const id = doc.id
+      return{
+        id,
+        ...data,
+      }
+    })
+  })
+}

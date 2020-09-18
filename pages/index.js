@@ -1,29 +1,27 @@
 import Head from "next/head";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import AppLayout from "components/AppLayout";
 import { colors } from "styles/theme";
 import Button from "components/button";
 import GmailIcon from "components/Icons/gmail";
-import { loginWithGmail, onAuthstateChanged } from "../firebase/client";
+import { loginWithGmail, onAuthstateChanged } from "firebase/client";
 import { useEffect, useState } from "react";
-import Avatar from "components/Avatar";
+import useUser, {USER_STATES} from "hooks/useUser";
 
 export default function Home() {
-  const [user, setUser] = useState(undefined);
+  const user = useUser()
+  const router = useRouter();
   console.log(user);
+
+
   useEffect(() => {
-    onAuthstateChanged(setUser);
-  }, []);
-  console.log("entro a home");
+    user && router.replace("/Home");
+  });
+
   const handleClick = () => {
-    loginWithGmail()
-      .then((user) => {
-        const { avatar, username, email } = user;
-        setUser(user);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    loginWithGmail().catch((err) => {
+      console.log(err);
+    });
   };
   return (
     <>
@@ -38,22 +36,13 @@ export default function Home() {
           <h1>Minca</h1>
           <h2>Administra tu taller 🛴</h2>
           <div>
-            {user === null && (
+            {user === USER_STATES.NOT_LOGGED && (
               <Button onClick={handleClick}>
                 <GmailIcon fill="white" height={20} width={20} />
                 Ingresar con Gmail
               </Button>
             )}
-            {user && user.username && (
-              <div>
-                <Avatar
-                  src={user.avatar}
-                  alt={user.username}
-                  text={user.username}
-                  withText
-                />
-              </div>
-            )}
+            {user === USER_STATES.NOT_KNOW && <img src="/spinner.gif" alt="spinner" />}
           </div>
         </section>
       </AppLayout>
@@ -85,6 +74,7 @@ export default function Home() {
           font-size: 20px;
           color: ${colors.third};
           margin: 0;
+          padding-left: 15px;
         }
       `}</style>
     </>

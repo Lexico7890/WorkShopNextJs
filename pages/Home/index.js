@@ -1,14 +1,15 @@
 import AppLayout from "components/AppLayout";
 import Request from "components/Request";
+import useUser from "hooks/useUser";
 import { useEffect, useState } from "react";
+import {fetchLatesRequest} from "firebase/client"
 
 export default function Home() {
-    const[datos, setDatos] = useState([])
+    const[timeLine, setTimeLine] = useState([]);
+    const user = useUser();
     useEffect(() => {
-        fetch('http://localhost:3000/api/statuses/HomeStatuses')
-        .then(res => res.json())
-        .then(setDatos)
-    })
+        user && fetchLatesRequest().then(setTimeLine)
+    },[user])
   return (
     <>
       <AppLayout>
@@ -17,13 +18,15 @@ export default function Home() {
         </header>
         <section>
             {
-                datos.map((request, index) => {
+                timeLine.map((request, index) => {
                     return(
                         <Request
                             id={index}
-                            name={request.name}
-                            message={request.message}
+                            name={request.userName}
+                            message={request.content}
                             avatar={request.avatar}
+                            userId={request.userId}
+                            createdAt={request.createdAt}
                         />
                     )
                 })
@@ -35,22 +38,27 @@ export default function Home() {
       <style jsx>{`
         header {
           align-items: center;
-          border-bottom: 1px solid #ccc;
+          border-bottom: 1px solid #eee;
           height: 49px;
+          background: #ffffffaa;
+          backdrop-filter: blur(5px);
           position: sticky;
           display: flex;
           top: 0;
           width: 100%;
         }
 
-        section {
-          padding-top: 48px;
+        h2{
+          font-size: 23px;
+          font-weight: 800;
+          padding-left: 15px;
         }
 
         nav {
           bottom: 0;
+          background: #fff;
           position: sticky;
-          border-top: 1px solid #ccc;
+          border-top: 1px solid #eee;
           height: 49px;
           width: 100%;
         }

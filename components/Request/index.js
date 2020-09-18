@@ -11,15 +11,15 @@ export default function Request({ id, name, message, avatar }) {
         <section>
           <strong>
             {name}
-            <p>{message}</p>
           </strong>
+          <p>{message}</p>
         </section>
       </article>
       <style jsx>{`
       article{
             display: flex;
             padding: 10px 15px;
-            border-bottom: 2px solid #eaf7ff;
+            border-bottom: 2px solid #eee;
         }
 
         div{
