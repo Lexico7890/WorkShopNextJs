@@ -1,5 +1,5 @@
 import Avatar from "components/Avatar";
-import { useTimeAgo } from "hooks/useTimeAgo";
+import useTimeAgo from "hooks/useTimeAgo";
 
 export default function Request({ id, name, message, avatar, createdAt }) {
   const timeAgo = useTimeAgo(createdAt);

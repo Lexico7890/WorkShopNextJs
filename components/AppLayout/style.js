@@ -17,14 +17,14 @@ export const globalStyles = css.global`
     font-family: ${fonts.base};
   }
 
-  textarea, input{
+  textarea,
+  input {
     font-family: ${fonts.base};
   }
 
   * {
     box-sizing: border-box;
   }
-  
 `;
 
 export default css`
@@ -32,7 +32,6 @@ export default css`
     display: grid;
     height: 100vh;
     place-items: center;
-
   }
 
   main {
