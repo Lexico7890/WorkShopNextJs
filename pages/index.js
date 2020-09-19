@@ -3,15 +3,16 @@ import { useRouter } from "next/router";
 import AppLayout from "components/AppLayout";
 import { colors } from "styles/theme";
 import Button from "components/button";
-import GmailIcon from "components/Icons/gmail";
-import { loginWithGmail, onAuthstateChanged } from "firebase/client";
-import { useEffect, useState } from "react";
-import useUser, {USER_STATES} from "hooks/useUser";
+import GmailIcon from "../components/Icons/gmail";
+import { loginWithGmail } from "firebase/client";
+import { useEffect } from "react";
+import useUser, { USER_STATES } from "hooks/useUser";
 
-export default function Home() {
+
+export default function Home () {
   const user = useUser()
-  const router = useRouter();
-  console.log(user);
+  const router = useRouter()
+  console.log(user)
 
 
   useEffect(() => {
@@ -78,5 +79,5 @@ export default function Home() {
         }
       `}</style>
     </>
-  );
+  )
 }

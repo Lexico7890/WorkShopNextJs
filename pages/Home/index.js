@@ -2,14 +2,14 @@ import AppLayout from "components/AppLayout";
 import Request from "components/Request";
 import useUser from "hooks/useUser";
 import { useEffect, useState } from "react";
-import {fetchLatesRequest} from "firebase/client"
+import { fetchLatesRequest } from "firebase/client";
 
 export default function Home() {
-    const[timeLine, setTimeLine] = useState([]);
-    const user = useUser();
-    useEffect(() => {
-        user && fetchLatesRequest().then(setTimeLine)
-    },[user])
+  const [timeLine, setTimeLine] = useState([]);
+  const user = useUser();
+  useEffect(() => {
+    user && fetchLatesRequest().then(setTimeLine);
+  }, [user]);
   return (
     <>
       <AppLayout>
@@ -17,20 +17,19 @@ export default function Home() {
           <h2>Inicio</h2>
         </header>
         <section>
-            {
-                timeLine.map((request, index) => {
-                    return(
-                        <Request
-                            id={index}
-                            name={request.userName}
-                            message={request.content}
-                            avatar={request.avatar}
-                            userId={request.userId}
-                            createdAt={request.createdAt}
-                        />
-                    )
-                })
-            }
+          {timeLine.map((request, index) => {
+            return (
+              <Request
+                id={index}
+                key={index}
+                name={request.userName}
+                message={request.content}
+                avatar={request.avatar}
+                userId={request.userId}
+                createdAt={request.createdAt}
+              />
+            );
+          })}
         </section>
         <nav></nav>
       </AppLayout>
@@ -48,7 +47,7 @@ export default function Home() {
           width: 100%;
         }
 
-        h2{
+        h2 {
           font-size: 23px;
           font-weight: 800;
           padding-left: 15px;

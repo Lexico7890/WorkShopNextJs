@@ -3,20 +3,19 @@ import Button from "components/button";
 import useUser from "hooks/useUser";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import {addRequest} from 'firebase/client'
+import { addRequest } from "firebase/client";
 
 const COMPOSE_STATE = {
   USER_NOT_KNOW: 0,
   LOADING: 1,
   SUCCESS: 2,
-  ERROR: -1
+  ERROR: -1,
 };
-
 
 export default function ComposeRequest() {
   const user = useUser();
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState(COMPOSE_STATE.USER_NOT_KNOW)
+  const [status, setStatus] = useState(COMPOSE_STATE.USER_NOT_KNOW);
   const router = useRouter();
 
   const handleChange = (event) => {
@@ -26,20 +25,23 @@ export default function ComposeRequest() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setStatus(COMPOSE_STATE.LOADING)
+    setStatus(COMPOSE_STATE.LOADING);
     addRequest({
       avatar: user.avatar,
       content: message,
       userId: user.id,
-      userName: user.username
-    }).then(() => {
-      router.push('/Home')
-    }).catch(err => {
-      console.error(err)
+      userName: user.username,
+      createdAt: user.createdAt,
     })
+      .then(() => {
+        router.push("/Home");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
-  const isButtondisable = !message.length || status === COMPOSE_STATE.LOADING
+  const isButtondisable = !message.length || status === COMPOSE_STATE.LOADING;
 
   return (
     <>
