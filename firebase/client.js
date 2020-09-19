@@ -50,6 +50,7 @@ export const addRequest = ({ avatar, content, userId, userName }) => {
 export const fetchLatesRequest = () => {
   return db
     .collection("request")
+    .orderBy("createdAt", "desc")
     .get()
     .then(({ docs }) => {
       return docs.map((doc) => {
