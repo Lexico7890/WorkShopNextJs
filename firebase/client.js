@@ -11,7 +11,7 @@ var firebaseConfig = {
   measurementId: "G-BDFVBMNQH7",
 };
 
-!firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
+!firebase.apps.length && firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 const mapUserFromFirebase = (user) => {
@@ -26,7 +26,6 @@ const mapUserFromFirebase = (user) => {
 
 export const onAuthstateChanged = (onChange) => {
   return firebase.auth().onAuthStateChanged((user) => {
-    console.log(user);
     const normalizedUser = user ? mapUserFromFirebase(user) : null;
     onChange(normalizedUser);
   });
@@ -37,32 +36,54 @@ export const loginWithGmail = () => {
   return firebase.auth().signInWithPopup(gmailProvider);
 };
 
-export const addRequest = ({ avatar, content, userId, userName }) => {
+export const addRequest = ({ avatar, content, userId, userName, img }) => {
   return db.collection("request").add({
     avatar,
     content,
     userId,
     userName,
     createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
+    img,
   });
 };
 
-export const fetchLatesRequest = () => {
+const mapRequestFromFirebaseToRequestObject = (doc) => {
+  const data = doc.data();
+  const id = doc.id;
+  const { createdAt } = data;
+
+  return {
+    ...data,
+    id,
+    createdAt: +createdAt.toDate(),
+  };
+};
+
+export const listenLatesRequest = (callback) => {
+  return (
+    db
+      .collection("request")
+      .orderBy("createdAt", "desc")
+      //.limit(5)
+      .onSnapshot(({ docs }) => {
+        const newRequests = docs.map(mapRequestFromFirebaseToRequestObject);
+        callback(newRequests);
+      })
+  );
+};
+
+/*export const fetchLatesRequest = () => {
   return db
     .collection("request")
     .orderBy("createdAt", "desc")
     .get()
     .then(({ docs }) => {
-      return docs.map((doc) => {
-        const data = doc.data();
-        const id = doc.id;
-        const { createdAt } = data;
-
-        return {
-          ...data,
-          id,
-          createdAt: +createdAt.toDate(),
-        };
-      });
+      return docs.map(mapRequestFromFirebaseToRequestObject);
     });
+};*/
+
+export const uploadImage = (file) => {
+  const ref = firebase.storage().ref(`/images/${file.name}`);
+  const task = ref.put(file);
+  return task;
 };

@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import AppLayout from "components/AppLayout";
 import { colors } from "styles/theme";
 import Button from "components/button";
 import GmailIcon from "../components/Icons/gmail";
@@ -8,12 +7,9 @@ import { loginWithGmail } from "firebase/client";
 import { useEffect } from "react";
 import useUser, { USER_STATES } from "hooks/useUser";
 
-
-export default function Home () {
-  const user = useUser()
-  const router = useRouter()
-  console.log(user)
-
+export default function Home() {
+  const user = useUser();
+  const router = useRouter();
 
   useEffect(() => {
     user && router.replace("/Home");
@@ -31,22 +27,22 @@ export default function Home () {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <AppLayout>
-        <section>
-          <img src="/boxTools.png" alt="Logo" />
-          <h1>Minca</h1>
-          <h2>Administra tu taller 🛴</h2>
-          <div>
-            {user === USER_STATES.NOT_LOGGED && (
-              <Button onClick={handleClick}>
-                <GmailIcon fill="white" height={20} width={20} />
-                Ingresar con Gmail
-              </Button>
-            )}
-            {user === USER_STATES.NOT_KNOW && <img src="/spinner.gif" alt="spinner" />}
-          </div>
-        </section>
-      </AppLayout>
+      <section>
+        <img src="/boxTools.png" alt="Logo" />
+        <h1>Minca</h1>
+        <h2>Administra tu taller 🛴</h2>
+        <div>
+          {user === USER_STATES.NOT_LOGGED && (
+            <Button onClick={handleClick}>
+              <GmailIcon fill="white" height={20} width={20} />
+              Ingresar con Gmail
+            </Button>
+          )}
+          {user === USER_STATES.NOT_KNOW && (
+            <img src="/spinner.gif" alt="spinner" />
+          )}
+        </div>
+      </section>
 
       <style jsx>{`
         img {
@@ -79,5 +75,5 @@ export default function Home () {
         }
       `}</style>
     </>
-  )
+  );
 }
