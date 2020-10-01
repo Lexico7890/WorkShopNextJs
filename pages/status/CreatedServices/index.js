@@ -1,12 +1,13 @@
-import Request from "components/Request";
+import CreatedServices from "components/CreatedServices";
 import { firestore } from "firebase/admin";
 import { useRouter } from "next/router";
 
 export default function RequestPage(props) {
   const router = useRouter();
+  console.log(props);
   if (router.isFallback) return <h2>Cargando...</h2>;
   return (
-    <Request
+    <CreatedServices
       id={props.id}
       name={props.userName}
       message={props.content}

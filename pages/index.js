@@ -50,7 +50,7 @@ export default function Home() {
         }
 
         div {
-          margin-top: 8px;
+          margin-top: 30px;
         }
 
         section {
@@ -65,6 +65,7 @@ export default function Home() {
           font-weight: 750;
           color: ${colors.firt};
           margin: 0;
+          margin-top: 25px;
         }
 
         h2 {

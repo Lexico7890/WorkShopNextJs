@@ -28,7 +28,35 @@ export const onAuthstateChanged = (onChange) => {
   return firebase.auth().onAuthStateChanged((user) => {
     const normalizedUser = user ? mapUserFromFirebase(user) : null;
     onChange(normalizedUser);
+    console.log(normalizedUser);
+    console.log(user);
+    db.collection("ListUsers")
+      .doc(normalizedUser.id)
+      .set({
+        name: normalizedUser.username,
+        email: normalizedUser.email,
+        signInAt: firebase.firestore.Timestamp.fromDate(new Date()),
+      });
   });
+};
+
+export const getListUsers = (callback) => {
+  return db
+    .collection("ListUsers")
+    .orderBy("name", "desc")
+    .onSnapshot(({ docs }) => {
+      const users = docs.map(mapListUsersFromFirebaseToListObject);
+      callback(users);
+    });
+};
+
+export const mapListUsersFromFirebaseToListObject = (doc) => {
+  const data = doc.data();
+  const id = doc.id;
+  return {
+    ...data,
+    id,
+  };
 };
 
 export const loginWithGmail = () => {
@@ -36,12 +64,18 @@ export const loginWithGmail = () => {
   return firebase.auth().signInWithPopup(gmailProvider);
 };
 
-export const addRequest = ({ avatar, content, userId, userName, img }) => {
-  return db.collection("request").add({
-    avatar,
-    content,
+export const addCreatedServices = ({
+  userId,
+  description,
+  servisId,
+  value,
+  img,
+}) => {
+  return db.collection("createdServices").add({
     userId,
-    userName,
+    description,
+    servisId,
+    value,
     createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
     img,
   });
@@ -59,15 +93,17 @@ const mapRequestFromFirebaseToRequestObject = (doc) => {
   };
 };
 
-export const listenLatesRequest = (callback) => {
+export const listenLatesCreatedServices = (callback) => {
   return (
     db
-      .collection("request")
+      .collection("createdServices")
       .orderBy("createdAt", "desc")
       //.limit(5)
       .onSnapshot(({ docs }) => {
-        const newRequests = docs.map(mapRequestFromFirebaseToRequestObject);
-        callback(newRequests);
+        const newCreatedServices = docs.map(
+          mapRequestFromFirebaseToRequestObject
+        );
+        callback(newCreatedServices);
       })
   );
 };

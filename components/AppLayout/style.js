@@ -43,13 +43,13 @@ export default css`
     position: relative;
     overflow-y: auto;
     display: flex;
-    flex-direction: column;
+    overflow-x: hidden;
   }
 
-  @media (min-width: ${breakpoints.mobile}) {
+  @media (min-width: ${breakpoints.pc}) {
     main {
-      height: 90vh;
-      width: ${breakpoints.mobile};
+      height: 100vh;
+      width: 100%;
     }
   }
 `;

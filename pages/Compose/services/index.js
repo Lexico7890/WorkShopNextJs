@@ -1,5 +1,4 @@
 import Button from "components/button";
-import useUser from "hooks/useUser";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { addRequest, uploadImage } from "firebase/client";
@@ -21,12 +20,10 @@ const DRAG_IMAGE_STATES = {
   COMPLETE: 3,
 };
 
-export default function ComposeRequest() {
-  const user = useUser();
+export default function ComposeServices() {
   const [message, setMessage] = useState("");
-  const [drag, setDrag] = useState(DRAG_IMAGE_STATES.NONE);
-  const [task, setTask] = useState(null);
-  const [imgURL, setImgURL] = useState(null);
+  const [name, setName] = useState("");
+  const [valueServis, setValueServis] = useState();
   const [status, setStatus] = useState(COMPOSE_STATE.USER_NOT_KNOW);
   const router = useRouter();
 
@@ -38,13 +35,10 @@ export default function ComposeRequest() {
   const handleSubmit = (event) => {
     event.preventDefault();
     setStatus(COMPOSE_STATE.LOADING);
-    addRequest({
-      avatar: user.avatar,
-      content: message,
-      userId: user.id,
-      userName: user.username,
-      createdAt: user.createdAt,
-      img: imgURL,
+    addServis({
+      name: name,
+      description: message,
+      valueServis: valueServis,
     })
       .then(() => {
         router.push("/Home");
@@ -90,11 +84,6 @@ export default function ComposeRequest() {
         <title>Crear Servicio / Minca</title>
       </Head>
       <section className="form-container">
-        {user && (
-          <section className="avatar-container">
-            <Avatar src={user.avatar} />
-          </section>
-        )}
         <form onSubmit={handleSubmit}>
           <textarea
             placeholder="¿En que te ayudo?"
@@ -104,12 +93,7 @@ export default function ComposeRequest() {
             onDrop={handleDrog}
             value={message}
           ></textarea>
-          {imgURL && (
-            <section className="remove-image">
-              <button onClick={() => setImgURL(null)}>x</button>
-              <img src={imgURL} />
-            </section>
-          )}
+
           <div>
             <Button disabled={isButtondisable}>Enviar</Button>
           </div>
@@ -170,3 +154,23 @@ export default function ComposeRequest() {
     </>
   );
 }
+/**
+ * const [drag, setDrag] = useState(DRAG_IMAGE_STATES.NONE);
+  const [task, setTask] = useState(null);
+  const [imgURL, setImgURL] = useState(null);
+  userId: user.id,
+      userName: user.username,
+      createdAt: user.createdAt,
+      img: imgURL,
+      {user && (
+          <section className="avatar-container">
+            <Avatar src={user.avatar} />
+          </section>
+        )}
+        {imgURL && (
+            <section className="remove-image">
+              <button onClick={() => setImgURL(null)}>x</button>
+              <img src={imgURL} />
+            </section>
+          )}
+ */
