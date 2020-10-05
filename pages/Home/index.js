@@ -11,10 +11,15 @@ import CreatedServicesPage from "pages/status/CreatedServices";
 import { useForm } from "react-hook-form";
 import UsersIcon from "components/Icons/users";
 import useUser from "hooks/useUser";
-import { getListUsers, listenLatesCreatedServices } from "firebase/client";
+import {
+  addCreatedServices,
+  getListUsers,
+  listenLatesCreatedServices,
+} from "firebase/client";
 
 export default function Home() {
   const { register, handleSubmit, watch, errors } = useForm();
+  //campos para crear un servicio
   const [timeLine, setTimeLine] = useState([]);
   const [idSelect, setIdSelect] = useState([]);
   const [modal, setModal] = useState(false);
@@ -22,6 +27,7 @@ export default function Home() {
   const user = useUser();
   const onSubmit = (data) => console.log(data);
   console.log(watch("example"));
+
   useEffect(() => {
     let unsuscribe;
     let unsuscribeListUsers;
@@ -36,7 +42,6 @@ export default function Home() {
 
     //user && fetchLatesRequest().then(setTimeLine);
   }, [user]);
-
   const handlerRequestClick = (request) => {
     console.log(request);
     setIdSelect(request);
@@ -53,8 +58,26 @@ export default function Home() {
       .forEach((x) => (x.checked = false));
   };
 
-  console.log(user);
-  console.log(listUsers);
+  const handleCreatedService = (e) => {
+    e.preventDefault();
+    addCreatedServices({
+      userId: user.id,
+      userName: user.username,
+      avatar: user.avatar,
+      description: "algun detalle",
+      servisId: [
+        "tgny76n7gsdy77d",
+        "gha7d7dhad8d7aysd7",
+        "haudad78hndayd5r4avdhj",
+      ],
+      value: 80000,
+      mileage: 1000,
+      patinetaId: "gyg23yed7jjbhd3dd5jdf",
+    });
+    setModal(!modal);
+  };
+
+  console.log(timeLine);
 
   return (
     <>
@@ -92,8 +115,8 @@ export default function Home() {
               <article className="articleFormLeft">
                 <label>Usuario</label>
                 <select>
-                  {listUsers.map((users) => {
-                    return <option>{users.name}</option>;
+                  {listUsers.map((users, index) => {
+                    return <option key={index}>{users.name}</option>;
                   })}
                   <option>User 1</option>
                   <option>User 2</option>
@@ -130,18 +153,45 @@ export default function Home() {
                     motor
                   </label>
                   <br />
+                  <label for="s4">
+                    <input type="radio" value="servicio 4" id="s4" /> Cambio de
+                    motor
+                  </label>
+                  <br />
+                  <label for="s4">
+                    <input type="radio" value="servicio 4" id="s4" /> Cambio de
+                    motor
+                  </label>
+                  <br />
+                  <label for="s4">
+                    <input type="radio" value="servicio 4" id="s4" /> Cambio de
+                    motor
+                  </label>
+                  <br />
+                  <label for="s4">
+                    <input type="radio" value="servicio 4" id="s4" /> Cambio de
+                    motor
+                  </label>
+                  <br />
+                  <label for="s4">
+                    <input type="radio" value="servicio 4" id="s4" /> Cambio de
+                    motor
+                  </label>
+                  <br />
                 </div>
                 <div className="divButtonServices">
                   <button onClick={handleCheck}>Borrar Seleccion</button>
                 </div>
               </article>
+              <article className="articleMileage">
+                <label>Ultimo kilometraje</label>
+                <input type="text" id="mile" />
+              </article>
               <article className="articleFormLeft">
                 <textarea placeholder="Detalle" wrap="hard"></textarea>
               </article>
               <article className="articleFormButton">
-                <button onClick={() => setModal(!modal)}>
-                  Enviar Servicio
-                </button>
+                <button onClick={handleCreatedService}>Enviar Servicio</button>
               </article>
             </form>
           </article>
@@ -166,12 +216,11 @@ export default function Home() {
                 <CreatedServices
                   id={request.id}
                   key={index}
-                  name={request.userName}
-                  message={request.content}
-                  avatar={request.avatar}
-                  userId={request.userId}
+                  message={request.description}
                   createdAt={request.createdAt}
-                  img={request.img}
+                  userName={request.userName}
+                  avatar={request.avatar}
+                  value={request.value}
                 />
               </div>
             );
@@ -179,7 +228,7 @@ export default function Home() {
         </article>
         <article className="articleServices">
           {idSelect.length === 0 ? (
-            <p>Esperado...</p>
+            <p>Esperando...</p>
           ) : (
             <CreatedServicesPage
               id={idSelect.id}

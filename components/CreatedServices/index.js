@@ -4,27 +4,37 @@ import createdServicesStyle from "./style";
 
 export default function CreatedServices({
   id,
-  name,
+  key,
+  userName,
   message,
-  avatar,
   createdAt,
-  img,
+  avatar,
+  value,
 }) {
   const timeAgo = useTimeAgo(createdAt);
+  console.log({
+    id,
+    key,
+    userName,
+    message,
+    createdAt,
+    avatar,
+    value,
+  });
   return (
     <>
       <article key={id}>
         <div>
-          <Avatar alt={name} src={avatar} />
+          <Avatar alt={userName} src={avatar} />
         </div>
         <section>
           <header>
-            <strong>{name}</strong>
+            <strong>{userName}</strong>
             <span> - </span>
             <p>{timeAgo}</p>
           </header>
-          <p>{message}</p>
-          {img && <img src={img} />}
+          <p>{value}</p>
+          {message && <p>{message}</p>}
         </section>
       </article>
       <style jsx>{createdServicesStyle}</style>

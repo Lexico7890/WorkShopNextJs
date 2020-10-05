@@ -69,7 +69,10 @@ export const addCreatedServices = ({
   description,
   servisId,
   value,
-  img,
+  mileage,
+  patinetaId,
+  userName,
+  avatar,
 }) => {
   return db.collection("createdServices").add({
     userId,
@@ -77,8 +80,12 @@ export const addCreatedServices = ({
     servisId,
     value,
     createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
-    img,
+    mileage,
+    patinetaId,
+    userName,
+    avatar,
   });
+  console.log("servicio creado");
 };
 
 const mapRequestFromFirebaseToRequestObject = (doc) => {

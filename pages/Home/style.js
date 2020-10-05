@@ -112,10 +112,6 @@ export default css`
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       padding: 0;
-      background-image: radial-gradient(${background} 1.5px, transparent 1px),
-        radial-gradient(${background} 1px, transparent 1px);
-      background-position: 0 0, 25px 25px;
-      background-size: 50px 50px;
     }
 
     .sectionModal button :hover {
@@ -229,6 +225,21 @@ export default css`
       width: 100%;
       z-index: 1;
       padding: 1%;
+    }
+
+    .articleMileage {
+      width: 80%;
+      margin-top: 4%;
+      display: flex;
+      padding: 0px 10px;
+    }
+
+    .articleMileage input {
+      width: 50%;
+      padding: 1%;
+      border-radius: 999px;
+      border: 1px solid;
+      float: left;
     }
   }
 `;

@@ -12,6 +12,16 @@ export default css`
     cursor: pointer;
   }
 
+  header {
+    display: flex;
+  }
+
+  header p,
+  span {
+    float: left;
+    margin-left: 5px;
+  }
+
   img {
     border-radius: 10px;
     height: auto;
