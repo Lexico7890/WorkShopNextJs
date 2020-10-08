@@ -17,6 +17,12 @@ export const globalStyles = css.global`
     font-family: ${fonts.base};
   }
 
+  section {
+    margin-left: 49px;
+    margin-top: 49px;
+    width: 100%;
+  }
+
   textarea,
   input {
     font-family: ${fonts.base};

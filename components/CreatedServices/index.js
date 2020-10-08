@@ -27,7 +27,7 @@ export default function CreatedServices({
         <div>
           <Avatar alt={userName} src={avatar} />
         </div>
-        <section>
+        <div>
           <header>
             <strong>{userName}</strong>
             <span> - </span>
@@ -35,7 +35,7 @@ export default function CreatedServices({
           </header>
           <p>{value}</p>
           {message && <p>{message}</p>}
-        </section>
+        </div>
       </article>
       <style jsx>{createdServicesStyle}</style>
     </>
