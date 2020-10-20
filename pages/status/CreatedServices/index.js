@@ -1,30 +1,23 @@
-import CreatedServices from "components/CreatedServices";
-import { firestore } from "firebase/admin";
+import ServisInfo from "components/servisInfo";
 import { useRouter } from "next/router";
 
-export default function RequestPage(props) {
+export default function CreatedServicesPage(props) {
   const router = useRouter();
-  console.log(props);
   if (router.isFallback) return <h2>Cargando...</h2>;
   return (
-    <CreatedServices
+    <ServisInfo
       id={props.id}
-      name={props.userName}
-      message={props.content}
-      avatar={props.avatar}
-      userId={props.userId}
-      createdAt={props.createdAt}
-      img={props.img}
+      name={props.name}
+      value={props.value}
+      garantia={props.garantia}
+      description={props.description}
     />
   );
 }
-/*
- 
-*/
 
-export async function getStaticPaths() {
+export async function getStaticPath() {
   return {
-    paths: [{ params: { id: "9qSPOAybnEiLos1I6iue" } }],
+    paths: [{ params: { id: "BMsdzy2KQn1bezXwVsRs" } }],
     fallback: true,
   };
 }
@@ -34,17 +27,17 @@ export async function getStaticProps(context) {
   const { id } = params;
 
   return firestore
-    .collection("request")
+    .collection("createdServices")
     .doc(id)
     .get()
     .then((doc) => {
       const data = doc.data();
       const id = doc.id;
-      const { createdAt } = data;
+      const { garantia } = data;
       const props = {
         ...data,
         id,
-        createdAt: +createdAt.toDate(),
+        garantia: +garantia.toDate(),
       };
       return { props };
     })
@@ -52,20 +45,3 @@ export async function getStaticProps(context) {
       return { props: {} };
     });
 }
-
-/**
- * export async function getServerSideProps(context) {
-  const { params, res } = context;
-  const { id } = params;
-
-  const apiResponse = await fetch(`http://localhost:3000/api/request/${id}`);
-  if (apiResponse.ok) {
-    const props = await apiResponse.json();
-    return { props };
-  }
-  if (res) {
-    res.writeHead(201, { Location: "/Home" }).end();
-  }
-}
- * 
- */

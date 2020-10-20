@@ -2,45 +2,23 @@ import css from "styled-jsx/css";
 
 export default css`
   article {
+    justify-content: space-around;
     display: flex;
-    padding: 10px 15px;
-    border-bottom: 2px solid #eee;
+    padding: 4px 5px;
+    align-items: center;
+    height: 70px;
+    border-radius: 8px;
+    margin: 5px 0px;
+    box-shadow: 0px 8px 8px 0px #dedede;
+    background-color: white;
+    transition: background-color 0.3s;
   }
 
-  article :hover {
-    background: #f5f8fa;
-    cursor: pointer;
+  article:hover {
+    background-color: #6c63ff;
   }
-
-  header {
-    display: flex;
-  }
-
-  header p,
-  span {
-    float: left;
-    margin-left: 5px;
-  }
-
-  img {
-    border-radius: 10px;
-    height: auto;
-    width: 100%;
-    margin-top: 10px;
-  }
-
-  div {
-    padding-right: 10px;
-  }
-  p {
+  article p {
+    font-weight: 500;
     margin: 0;
-  }
-  a {
-    color: #555;
-    font-size: 14px;
-    text-decoration: none;
-  }
-  a :hover {
-    text-decoration: underline;
   }
 `;

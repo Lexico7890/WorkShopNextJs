@@ -28,8 +28,22 @@ export const globalStyles = css.global`
     font-family: ${fonts.base};
   }
 
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+    font-weight: 500;
+    font-size: 19px;
+  }
   * {
     box-sizing: border-box;
+  }
+  button {
+    outline: none !important;
   }
 `;
 

@@ -14,8 +14,8 @@ export default css`
   }
 
   nav a:hover {
-    background: radial-gradient(#f5866e44 30%, transparent 16%);
-    background-size: 180px 180px;
+    background: radial-gradient(#d3d3d344 100%, transparent 16%);
+    border-radius: 8px;
     background-position: center;
   }
 

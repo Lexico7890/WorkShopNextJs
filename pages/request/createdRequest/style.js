@@ -15,7 +15,7 @@ export default css`
 
   .articleFormButton button {
     background-color: ${colors.third};
-    padding: 2%;
+    padding: 1% 2%;
     border-radius: 999px;
     font-weight: 600;
     border: 0;
@@ -44,7 +44,7 @@ export default css`
 
   .articleMileage {
     width: 100%;
-    margin-top: 4%;
+    margin-top: 10%;
     display: flex;
     padding: 0px 10px;
     justify-content: center;
@@ -52,26 +52,19 @@ export default css`
   }
 
   .articleMileage label {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    border-bottom: 1px solid #000000;
+    font-weight: 700;
+    font-size: 20px;
+    margin: 0% 3%;
   }
 
-  .articleMileage input,
-  select {
-    width: 100%;
-    height: 100%;
-    background: none;
-    color: #000000ee;
-    padding-top: 20px;
-    border: none;
-    outline: 0px;
-    margin-right: 4px;
+  .articleMileage input {
+    border-radius: 8px;
+    background-color: #2f3648;
+    color: whitesmoke;
+    text-align: center;
+    max-width: 180px;
   }
+
   .sectionModal {
     height: 100%;
     width: 100%;
@@ -86,10 +79,13 @@ export default css`
 
   .articleModal {
     width: 100%;
+    padding: 0% 3%;
+    justify-content: center;
   }
 
   .articleModalImg {
     width: 100%;
+    padding: 0% 3%;
   }
 
   .articleModalImg img {
@@ -99,121 +95,6 @@ export default css`
   .articleFormLeft {
     width: 100%;
     margin-top: 4%;
-  }
-
-  .select-box {
-    display: flex;
-    width: 90%;
-    flex-direction: column;
-  }
-
-  .select-box .options-container {
-    background-color: #2f3648;
-    color: #f5f6fa;
-    max-height: 0;
-    opacity: 0;
-    width: 100%;
-    transition: all 0.4s;
-    border-radius: 8px;
-    overflow: hidden;
-    order: 1;
-  }
-
-  .selected {
-    background: #2f3648;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    color: #f5f6fa;
-    position: relative;
-    width: 90%;
-    order: 0;
-    justify-content: space-between;
-    display: flex;
-    align-items: center;
-  }
-
-  .icon {
-    float: right;
-  }
-
-  .selected p {
-    margin: 0;
-    font-weight: 700;
-  }
-
-  .selected::after {
-    content: "";
-    position: absolute;
-    height: 100%;
-    width: 32px;
-    right: 10px;
-    top: 5px;
-    transition: all 0.4s;
-  }
-
-  .select-box .options-container.active {
-    max-height: 240px;
-    opacity: 1;
-    overflow-y: scroll;
-  }
-
-  .select-box .options-container.active + .selected::after {
-    transform: rotateX(180deg);
-    top: -6px;
-  }
-
-  .select-box .options-container::-webkit-scrollbar {
-    width: 8px;
-    background: #0d141f;
-    border-radius: 0 8px 8px 0;
-  }
-
-  .select-box .options-container::-webkit-scrollbar-thumb {
-    background: #525861;
-    border-radius: 0 8px 8px 0;
-  }
-
-  .select-box .option,
-  .selected {
-    padding: 10px 24px;
-    cursor: pointer;
-  }
-
-  .select-box .option:hover {
-    background: #414b57;
-  }
-
-  .select-box label {
-    cursor: pointer;
-  }
-
-  .select-box .option .radio {
-    display: none;
-  }
-
-  .articleFormLeftRadio {
-    width: 100%;
-    margin-top: 4%;
-    display: grid;
-    grid-template-columns: 80% 20%;
-  }
-
-  .articleFormLeftRadio div {
-    padding-left: 2%;
-  }
-
-  .articleFormLeft textarea {
-    margin: 0% 5%;
-  }
-
-  .articleFormLeftRadio button {
-    background-color: orangered;
-    padding: 5%;
-    border-radius: 999px;
-    font-weight: 700;
-    border: 0;
-    font-size: 80%;
-    margin-top: 50%;
   }
 
   .articleModal select {
@@ -229,9 +110,11 @@ export default css`
   textarea {
     height: 20vh;
     width: 95%;
-    border: 1;
     font-size: 21px;
     padding: 15px;
     resize: none;
+    color: whitesmoke;
+    background-color: #2f3648;
+    border-radius: 8px;
   }
 `;

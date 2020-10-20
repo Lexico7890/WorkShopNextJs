@@ -1,28 +1,28 @@
-import CreatedServices from "components/CreatedServices";
+import CreatedRequest from "components/request/CreatedRequest";
 import { useEffect, useState } from "react";
-import Navbar from "../../components/navbar";
 import Head from "next/head";
 import homeStyles from "./style";
-import CreatedServicesPage from "pages/status/CreatedServices";
+import CreatedRequestPage from "components/request/requestInfo";
 import { useForm } from "react-hook-form";
-import Nav from "components/nav";
 import useUser from "hooks/useUser";
-import { listenLatesCreatedServices } from "firebase/client";
+import { listenLatesCreatedRequest } from "firebase/client";
+import WaitDetails from "components/waitDetails";
 
 export default function Home() {
   const { register, handleSubmit, watch, errors } = useForm();
   //campos para crear un servicio
   const [timeLine, setTimeLine] = useState([]);
-  const [idSelect, setIdSelect] = useState([]);
+  const [idSelect, setIdSelect] = useState({});
+  const [selectRequest, setSelectRequest] = useState(0);
 
   const user = useUser();
 
-  console.log(watch("example"));
+  //console.log(watch("example"));
 
   useEffect(() => {
     let unsuscribe;
     if (user) {
-      unsuscribe = listenLatesCreatedServices(setTimeLine);
+      unsuscribe = listenLatesCreatedRequest(setTimeLine);
     }
     return () => {
       unsuscribe && unsuscribe();
@@ -31,11 +31,10 @@ export default function Home() {
     //user && fetchLatesRequest().then(setTimeLine);
   }, [user]);
   const handlerRequestClick = (request) => {
-    console.log(request);
     setIdSelect(request);
+    setSelectRequest(1);
+    console.log(idSelect);
   };
-
-  console.log(timeLine);
 
   return (
     <>
@@ -68,10 +67,10 @@ export default function Home() {
           {timeLine.map((request, index) => {
             return (
               <div onClick={() => handlerRequestClick(request)} key={index}>
-                <CreatedServices
+                <CreatedRequest
                   id={request.id}
                   key={index}
-                  message={request.description}
+                  description={request.description}
                   createdAt={request.createdAt}
                   userName={request.userName}
                   avatar={request.avatar}
@@ -82,16 +81,17 @@ export default function Home() {
           })}
         </article>
         <article className="articleServices">
-          {idSelect.length === 0 ? (
-            <p>Esperando...</p>
+          {selectRequest === 0 ? (
+            <WaitDetails height={400} width={350} />
           ) : (
-            <CreatedServicesPage
+            <CreatedRequestPage
               id={idSelect.id}
               name={idSelect.userName}
-              message={idSelect.content}
+              description={idSelect.description}
               avatar={idSelect.avatar}
               userId={idSelect.userId}
               createdAt={idSelect.createdAt}
+              value={idSelect.value}
               img={idSelect.img}
             />
           )}

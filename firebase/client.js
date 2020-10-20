@@ -28,13 +28,12 @@ export const onAuthstateChanged = (onChange) => {
   return firebase.auth().onAuthStateChanged((user) => {
     const normalizedUser = user ? mapUserFromFirebase(user) : null;
     onChange(normalizedUser);
-    console.log(normalizedUser);
-    console.log(user);
     db.collection("ListUsers")
       .doc(normalizedUser.id)
       .set({
         name: normalizedUser.username,
         email: normalizedUser.email,
+        avatar: normalizedUser.avatar,
         signInAt: firebase.firestore.Timestamp.fromDate(new Date()),
       });
   });
@@ -64,7 +63,7 @@ export const loginWithGmail = () => {
   return firebase.auth().signInWithPopup(gmailProvider);
 };
 
-export const addCreatedServices = ({
+export const addCreatedRequest = ({
   userId,
   description,
   servisId,
@@ -74,7 +73,7 @@ export const addCreatedServices = ({
   userName,
   avatar,
 }) => {
-  return db.collection("createdServices").add({
+  return db.collection("createdRequest").add({
     userId,
     description,
     servisId,
@@ -85,14 +84,13 @@ export const addCreatedServices = ({
     userName,
     avatar,
   });
-  console.log("servicio creado");
 };
 
 const mapRequestFromFirebaseToRequestObject = (doc) => {
   const data = doc.data();
   const id = doc.id;
   const { createdAt } = data;
-
+  console.log(createdAt);
   return {
     ...data,
     id,
@@ -100,17 +98,17 @@ const mapRequestFromFirebaseToRequestObject = (doc) => {
   };
 };
 
-export const listenLatesCreatedServices = (callback) => {
+export const listenLatesCreatedRequest = (callback) => {
   return (
     db
-      .collection("createdServices")
+      .collection("createdRequest")
       .orderBy("createdAt", "desc")
       //.limit(5)
       .onSnapshot(({ docs }) => {
-        const newCreatedServices = docs.map(
+        const newCreatedRequest = docs.map(
           mapRequestFromFirebaseToRequestObject
         );
-        callback(newCreatedServices);
+        callback(newCreatedRequest);
       })
   );
 };
@@ -129,4 +127,65 @@ export const uploadImage = (file) => {
   const ref = firebase.storage().ref(`/images/${file.name}`);
   const task = ref.put(file);
   return task;
+};
+
+//firebase services-------------------------------------------------------->
+
+const mapRequestFromFirebaseToServisObject = (doc) => {
+  const data = doc.data();
+  const id = doc.id;
+
+  return {
+    ...data,
+    id,
+  };
+};
+
+export const listenLatesCreatedServices = (callback) => {
+  return (
+    db
+      .collection("createdServices")
+      .orderBy("name", "desc")
+      //.limit(5)
+      .onSnapshot(({ docs }) => {
+        const newCreatedServices = docs.map(
+          mapRequestFromFirebaseToServisObject
+        );
+        callback(newCreatedServices);
+      })
+  );
+};
+
+export const addCreatedServices = ({ userId, name, value, garantia }) => {
+  return db.collection("createdServices").add({
+    userId,
+    name,
+    value,
+    garantia,
+  });
+};
+
+export const listenLatesCreatedScooter = (callback) => {
+  return (
+    db
+      .collection("createdScooter")
+      .orderBy("name", "desc")
+      //.limit(5)
+      .onSnapshot(({ docs }) => {
+        const newCreatedScooter = docs.map(
+          mapRequestFromFirebaseToServisObject
+        );
+        callback(newCreatedScooter);
+      })
+  );
+};
+
+export const listenLatesCreatedEmployes = (callback) => {
+  return db
+    .collection("createdEmployes")
+    .orderBy("name")
+    .onSnapshot(({ docs }) => {
+      const newCreatedEmployes = docs.map(mapRequestFromFirebaseToServisObject);
+      callback(newCreatedEmployes);
+    });
 };
